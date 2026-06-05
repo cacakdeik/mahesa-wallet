@@ -1,0 +1,293 @@
+<!-- ══ CATATAN ANAK ══ -->
+<div id="catatanAnakPage" class="page">
+  <div class="header">
+    <div class="back-btn" onclick="showPage('home')"><svg style="width:15px;height:15px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg> Kembali</div>
+    <div class="greeting"><svg style="width:22px;height:22px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h.01"/><path d="M15 12h.01"/><path d="M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5"/><path d="M19 6.3a9 9 0 0 1 1.8 3.9 2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1"/></svg> Catatan Anak</div>
+    <div class="date-sub">Tumbuh Kembang Si Kecil</div>
+  </div>
+
+  <!-- SETUP PROFIL (shown when no child yet) -->
+  <div class="anak-setup-wrap" id="anakSetupWrap">
+    <div class="empty" style="padding:40px 20px;">
+      <div class="empty-icon" style="font-size:48px;">👶</div>
+      <p style="font-size:15px;font-weight:800;color:var(--text);margin-bottom:6px;">Belum ada profil anak</p>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:20px;">Tambahkan profil anak untuk mulai mencatat tumbuh kembangnya setiap hari.</p>
+      <button class="anak-empty-btn" onclick="openAnakProfilSheet()">
+        <svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        Tambah Profil Anak
+      </button>
+    </div>
+  </div>
+
+  <!-- PROFIL & RIWAYAT (shown when child exists) -->
+  <div class="anak-profil-wrap" id="anakProfilWrap">
+    <!-- HERO CARD -->
+    <div class="anak-hero" id="anakHeroCard">
+      <div class="anak-hero-nama" id="anakHeroNama">-</div>
+      <div class="anak-hero-umur" id="anakHeroUmur">-</div>
+      <div class="anak-hero-jk" id="anakHeroJK">-</div>
+      <div class="anak-hero-row">
+        <div class="anak-hero-stat">
+          <div class="anak-hero-stat-val" id="anakHeroBB">-</div>
+          <div class="anak-hero-stat-label">BB (kg)</div>
+        </div>
+        <div class="anak-hero-divider"></div>
+        <div class="anak-hero-stat">
+          <div class="anak-hero-stat-val" id="anakHeroTB">-</div>
+          <div class="anak-hero-stat-label">TB (cm)</div>
+        </div>
+        <div class="anak-hero-divider"></div>
+        <div class="anak-hero-stat">
+          <div class="anak-hero-stat-val" id="anakHeroCatat">0</div>
+          <div class="anak-hero-stat-label">Catatan</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAST GROWTH MINI -->
+    <div class="anak-growth-row" id="anakLastGrowth" style="display:none;">
+      <div class="anak-growth-card">
+        <div class="anak-growth-icon">⚖️</div>
+        <div class="anak-growth-label">Berat Badan</div>
+        <div class="anak-growth-val" id="lgBB">-</div>
+        <div class="anak-growth-status" id="lgBBStatus" style="color:#16a34a;">-</div>
+      </div>
+      <div class="anak-growth-card">
+        <div class="anak-growth-icon">📏</div>
+        <div class="anak-growth-label">Tinggi Badan</div>
+        <div class="anak-growth-val" id="lgTB">-</div>
+        <div class="anak-growth-status" id="lgTBStatus" style="color:#16a34a;">-</div>
+      </div>
+      <div class="anak-growth-card">
+        <div class="anak-growth-icon">🧠</div>
+        <div class="anak-growth-label">Lingkar Kepala</div>
+        <div class="anak-growth-val" id="lgLK">-</div>
+        <div class="anak-growth-status" id="lgLKStatus" style="color:#64748b;">-</div>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="anak-tab-row">
+      <div class="anak-tab active" id="atab-semua" onclick="filterAnakTab('semua')">Semua</div>
+      <div class="anak-tab" id="atab-tumbuh" onclick="filterAnakTab('tumbuh')">TB & BB</div>
+      <div class="anak-tab" id="atab-keluhan" onclick="filterAnakTab('keluhan')">Keluhan</div>
+      <div class="anak-tab" id="atab-vaksin" onclick="filterAnakTab('vaksin')">Vaksin</div>
+      <div class="anak-tab" id="atab-milestone" onclick="filterAnakTab('milestone')">Milestone</div>
+    </div>
+
+    <!-- HISTORY LIST -->
+    <div class="card">
+      <div id="anakHistoryList"><div class="empty"><div class="empty-icon">📋</div><p>Belum ada catatan</p></div></div>
+      <button class="anak-add-btn" id="anakAddBtn" onclick="openAnakCatatSheet()">
+        <svg style="width:16px;height:16px;stroke:currentColor;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        Tambah Catatan
+      </button>
+    </div>
+
+    <!-- EDIT PROFIL -->
+    <div style="margin-top:14px;">
+      <div class="card">
+        <div class="s-item" onclick="openAnakProfilSheet(true)">
+          <div class="s-left">
+            <div class="s-icon" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);"><svg style="width:18px;height:18px;stroke:#db2777;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg></div>
+            <div><div class="s-title">Edit Profil Anak</div><div class="s-sub">Ubah nama, tanggal lahir, jenis kelamin</div></div>
+          </div>
+          <div class="s-arrow" style="color:#db2777;">›</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SHEET: PROFIL ANAK ══ -->
+<div id="anakProfilSheet" class="sheet">
+  <div class="sheet-box">
+    <div class="sheet-bar"></div>
+    <div class="sheet-title" id="anakProfilSheetTitle">Profil Anak</div>
+    <div class="sheet-sub">Data dasar si kecil</div>
+    <div class="field">
+      <label>Nama Anak</label>
+      <input type="text" id="anakNamaInput" placeholder="Contoh: Arya, Naila...">
+    </div>
+    <div class="field">
+      <label>Tanggal Lahir</label>
+      <input type="date" id="anakTglLahir">
+    </div>
+    <div class="field">
+      <label>Jenis Kelamin</label>
+      <select id="anakJK">
+        <option value="laki">Laki-laki 👦</option>
+        <option value="perempuan">Perempuan 👧</option>
+      </select>
+    </div>
+    <div class="btn-row">
+      <button class="btn-sec" onclick="closeSheet('anakProfilSheet')">Batal</button>
+      <button class="btn-primary" style="margin-top:0;background:linear-gradient(135deg,#ec4899,#db2777);" onclick="simpanProfilAnak()">
+        <svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
+        Simpan
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SHEET: TAMBAH CATATAN ANAK ══ -->
+<div id="anakCatatSheet" class="sheet">
+  <div class="sheet-box">
+    <div class="sheet-bar"></div>
+    <div class="sheet-title">Tambah Catatan</div>
+    <div class="sheet-sub">Pilih jenis catatan tumbuh kembang</div>
+
+    <!-- Pilih Jenis -->
+    <div class="pengeluaran-grid" id="anakJenisGrid">
+      <div class="peng-card" id="ajenis-tumbuh" onclick="pilihJenisCatat('tumbuh')">
+        <div class="peng-icon">📏</div>
+        <div class="peng-label">TB & BB</div>
+      </div>
+      <div class="peng-card" id="ajenis-keluhan" onclick="pilihJenisCatat('keluhan')">
+        <div class="peng-icon">🤒</div>
+        <div class="peng-label">Keluhan / Sakit</div>
+      </div>
+      <div class="peng-card" id="ajenis-vaksin" onclick="pilihJenisCatat('vaksin')">
+        <div class="peng-icon">💉</div>
+        <div class="peng-label">Vaksinasi</div>
+      </div>
+      <div class="peng-card" id="ajenis-milestone" onclick="pilihJenisCatat('milestone')">
+        <div class="peng-icon">🌟</div>
+        <div class="peng-label">Milestone</div>
+      </div>
+    </div>
+
+    <!-- Form TB BB -->
+    <div id="formTumbuh" style="display:none;">
+      <div class="field">
+        <label>Berat Badan (kg)</label>
+        <input type="number" id="anakBB" placeholder="Contoh: 8.5" step="0.1" inputmode="decimal">
+      </div>
+      <div class="field">
+        <label>Tinggi Badan (cm)</label>
+        <input type="number" id="anakTB" placeholder="Contoh: 72" step="0.1" inputmode="decimal">
+      </div>
+      <div class="field">
+        <label>Lingkar Kepala (cm) <span style="color:var(--text2);font-weight:500;">(opsional)</span></label>
+        <input type="number" id="anakLK" placeholder="Contoh: 44" step="0.1" inputmode="decimal">
+      </div>
+      <div class="field">
+        <label>Status Pertumbuhan</label>
+        <select id="anakStatusTumbuh">
+          <option value="sangat-baik">⭐⭐⭐ Sangat Baik</option>
+          <option value="baik" selected>⭐⭐ Baik</option>
+          <option value="normal">✅ Normal</option>
+          <option value="perhatian">⚠️ Perlu Perhatian</option>
+          <option value="kurang">❗ Kurang</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tanggal</label>
+        <input type="date" id="anakTglTumbuh">
+      </div>
+      <div class="field">
+        <label>Catatan</label>
+        <textarea id="anakCatatTumbuh" placeholder="Catatan dari dokter / bidan (opsional)"></textarea>
+      </div>
+      <button class="btn-primary" style="background:linear-gradient(135deg,#ec4899,#db2777);" onclick="simpanCatatAnak('tumbuh')">
+        <svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
+        Simpan Catatan
+      </button>
+    </div>
+
+    <!-- Form Keluhan -->
+    <div id="formKeluhan" style="display:none;">
+      <div class="field">
+        <label>Keluhan / Gejala</label>
+        <input type="text" id="anakKeluhan" placeholder="Contoh: Demam, Batuk, Pilek...">
+      </div>
+      <div class="field">
+        <label>Tingkat Keluhan</label>
+        <select id="anakTingkatKeluhan">
+          <option value="ringan">🟢 Ringan</option>
+          <option value="sedang" selected>🟡 Sedang</option>
+          <option value="berat">🔴 Berat / Segera ke Dokter</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Suhu Tubuh (°C) <span style="color:var(--text2);font-weight:500;">(opsional)</span></label>
+        <input type="number" id="anakSuhu" placeholder="Contoh: 37.5" step="0.1" inputmode="decimal">
+      </div>
+      <div class="field">
+        <label>Tanggal</label>
+        <input type="date" id="anakTglKeluhan">
+      </div>
+      <div class="field">
+        <label>Tindakan / Obat</label>
+        <textarea id="anakTindakan" placeholder="Contoh: Paracetamol 120mg, kompres hangat..."></textarea>
+      </div>
+      <button class="btn-primary" style="background:linear-gradient(135deg,#ec4899,#db2777);" onclick="simpanCatatAnak('keluhan')">
+        <svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
+        Simpan Catatan
+      </button>
+    </div>
+
+    <!-- Form Vaksin -->
+    <div id="formVaksin" style="display:none;">
+      <div class="field">
+        <label>Nama Vaksin</label>
+        <input type="text" id="anakVaksinNama" placeholder="Contoh: BCG, DPT, Polio, MMR...">
+      </div>
+      <div class="field">
+        <label>Dosis ke-</label>
+        <select id="anakVaksinDosis">
+          <option value="1">Dosis 1</option>
+          <option value="2">Dosis 2</option>
+          <option value="3">Dosis 3</option>
+          <option value="booster">Booster</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tempat Vaksinasi</label>
+        <input type="text" id="anakVaksinTempat" placeholder="Contoh: Puskesmas, RS, Klinik...">
+      </div>
+      <div class="field">
+        <label>Tanggal</label>
+        <input type="date" id="anakTglVaksin">
+      </div>
+      <div class="field">
+        <label>Efek Samping / Catatan</label>
+        <textarea id="anakCatatVaksin" placeholder="Contoh: Demam ringan, rewel 1 hari (opsional)"></textarea>
+      </div>
+      <button class="btn-primary" style="background:linear-gradient(135deg,#ec4899,#db2777);" onclick="simpanCatatAnak('vaksin')">
+        <svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
+        Simpan Catatan
+      </button>
+    </div>
+
+    <!-- Form Milestone -->
+    <div id="formMilestone" style="display:none;">
+      <div class="field">
+        <label>Pencapaian</label>
+        <input type="text" id="anakMilestone" placeholder="Contoh: Sudah bisa duduk sendiri, Kata pertama...">
+      </div>
+      <div class="field">
+        <label>Kategori</label>
+        <select id="anakMilestoneKat">
+          <option value="motorik">🏃 Motorik Kasar</option>
+          <option value="halus">✋ Motorik Halus</option>
+          <option value="bahasa">💬 Bahasa & Bicara</option>
+          <option value="sosial">👥 Sosial & Emosi</option>
+          <option value="kognitif">🧠 Kognitif</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tanggal</label>
+        <input type="date" id="anakTglMilestone">
+      </div>
+      <div class="field">
+        <label>Deskripsi</label>
+        <textarea id="anakCatatMilestone" placeholder="Ceritakan lebih detail tentang pencapaian ini..."></textarea>
+      </div>
+      <button class="btn-primary" style="background:linear-gradient(135deg,#ec4899,#db2777);" onclick="simpanCatatAnak('milestone')">
+        <svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg>
+        Simpan Catatan
+      </button>
+    </div>
+  </div>
+</div>

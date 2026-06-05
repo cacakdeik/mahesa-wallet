@@ -1,0 +1,67 @@
+<!-- ══ KENCAN ══ -->
+<div id="kencanPage" class="page">
+  <div class="header">
+    <div class="back-btn" onclick="showPage('home')">← Kembali</div>
+    <div class="greeting"><svg style="width:22px;height:22px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> Agenda</div>
+    <div class="date-sub" id="kencanMonthLabel">Juni 2026</div>
+  </div>
+
+  <!-- Navigasi Bulan -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+    <button onclick="kencanPrevMonth()" style="background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:8px 16px;font-size:18px;cursor:pointer;color:var(--text);font-weight:800;">‹</button>
+    <div id="kencanMonthTitle" style="font-size:16px;font-weight:800;color:var(--text);">Juni 2026</div>
+    <button onclick="kencanNextMonth()" style="background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:8px 16px;font-size:18px;cursor:pointer;color:var(--text);font-weight:800;">›</button>
+  </div>
+
+  <!-- Kalender -->
+  <div class="card" style="padding:12px;margin-bottom:14px;">
+    <!-- Header hari -->
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:6px;">
+      <div style="text-align:center;font-size:10px;font-weight:800;color:#dc2626;padding:4px 0;">Min</div>
+      <div style="text-align:center;font-size:10px;font-weight:800;color:var(--text2);padding:4px 0;">Sen</div>
+      <div style="text-align:center;font-size:10px;font-weight:800;color:var(--text2);padding:4px 0;">Sel</div>
+      <div style="text-align:center;font-size:10px;font-weight:800;color:var(--text2);padding:4px 0;">Rab</div>
+      <div style="text-align:center;font-size:10px;font-weight:800;color:var(--text2);padding:4px 0;">Kam</div>
+      <div style="text-align:center;font-size:10px;font-weight:800;color:var(--text2);padding:4px 0;">Jum</div>
+      <div style="text-align:center;font-size:10px;font-weight:800;color:#dc2626;padding:4px 0;">Sab</div>
+    </div>
+    <!-- Grid tanggal -->
+    <div id="kencanGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;"></div>
+  </div>
+
+  <!-- Catatan tanggal terpilih -->
+  <div id="kencanNotePanel" style="display:none;">
+    <div class="card" style="margin-bottom:14px;border:2px solid #f472b6;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div>
+          <div style="font-size:15px;font-weight:800;color:var(--text);" id="kencanSelectedLabel">📅 Pilih Tanggal</div>
+          <div style="font-size:11px;color:var(--text2);margin-top:2px;" id="kencanSelectedSub">Catatan ke Agenda</div>
+        </div>
+        <button onclick="kencanTutupNote()" style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:6px 10px;font-size:12px;cursor:pointer;color:var(--text2);font-weight:700;"><svg style="width:14px;height:14px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+      </div>
+      <!-- Isi catatan -->
+      <div id="kencanNoteContent"></div>
+      <!-- Form tambah/edit -->
+      <div id="kencanFormWrap">
+        <textarea id="kencanNotaInput" placeholder="Tulis catatan kencan... (romantis, makan mana, momen apa 💕)" style="width:100%;padding:12px 14px;border-radius:13px;border:1.5px solid var(--border);background:var(--input-bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;outline:none;resize:none;height:80px;margin-top:4px;transition:border .2s;" onfocus="this.style.borderColor='#f472b6'" onblur="this.style.borderColor='var(--border)'"></textarea>
+        <select id="kencanEmoji" style="width:100%;padding:10px 12px;border-radius:12px;border:1.5px solid var(--border);background:var(--input-bg);color:var(--text);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;margin-top:10px;">
+          <option value="💑">💑 Kencan</option>
+          <option value="🍽️">🍽️ Makan</option>
+          <option value="🎬">🎬 Nonton</option>
+          <option value="🏖️">🏖️ Jalan</option>
+          <option value="🎁">🎁 Hadiah</option>
+          <option value="💝">💝 Spesial</option>
+          <option value="🌹">🌹 Romantis</option>
+          <option value="😊">😊 Biasa</option>
+        </select>
+        <button onclick="kencanSimpan()" style="width:100%;margin-top:10px;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,#f472b6,#ec4899);color:#fff;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;cursor:pointer;"><svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg> Simpan Catatan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Riwayat kencan terbaru -->
+  <div class="section-title"><svg style="width:17px;height:17px;stroke:#ec4899;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> Agenda Terakhir</div>
+  <div class="card">
+    <div id="kencanHistoryList"><div class="empty"><div class="empty-icon"><svg style="width:36px;height:36px;stroke:#64748b;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></div><p>Belum ada Agenda</p></div></div>
+  </div>
+</div>

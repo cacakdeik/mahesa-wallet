@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dompet Mahesa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<body>
+
+<!-- ══ LOGIN SCREEN ══ -->
+<div id="loginScreen">
+  <div class="login-logo"><svg style="width:40px;height:40px;stroke:#fff;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg></div>
+  <div class="login-title">Dompet Mahesa</div>
+  <div class="login-sub">Masuk untuk melanjutkan</div>
+  <div class="login-card">
+    <div class="login-field">
+      <label>Username</label>
+      <div class="login-input-wrap">
+        <input type="text" id="loginUser" placeholder="Masukkan username" autocomplete="username" autocapitalize="none">
+      </div>
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <div class="login-input-wrap">
+        <input type="password" id="loginPass" placeholder="Masukkan password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+        <button class="login-eye" id="eyeBtn" onclick="toggleEye()" tabindex="-1"><svg style="width:18px;height:18px;stroke:currentColor;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      </div>
+    </div>
+    <button class="login-btn" onclick="doLogin()">Masuk →</button>
+    <div class="login-error" id="loginError"><svg style="width:16px;height:16px;stroke:#dc2626;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg> Username atau password salah!</div>
+  </div>
+  <div class="login-footer">Dompet Mahesa v4.0 · Hanya untuk pengguna terdaftar</div>
+</div>
+
+
+<!-- ══ PAGE CONTAINER ══ -->
+<div id="pageContainer"></div>
+
+<!-- ══ NAVBAR ══ -->
+<div class="bottom-nav">
+  <div class="nav-item active" id="nav-home" onclick="showPage('home')">
+    <span class="nav-icon"><svg style="width:22px;height:22px;stroke:currentColor;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span>Home</span>
+  </div>
+  <div class="nav-item" id="nav-riwayat" onclick="showPage('riwayat')">
+    <span class="nav-icon"><svg style="width:22px;height:22px;stroke:currentColor;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg></span><span>Riwayat</span>
+  </div>
+  <button class="fab" id="fabBtn" onclick="toggleFabMenu()">+</button>
+  <div class="nav-item" id="nav-transfer" onclick="openTransferSheet()">
+    <span class="nav-icon"><svg style="width:22px;height:22px;stroke:currentColor;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></span><span>Transfer</span>
+  </div>
+  <div class="nav-item" id="nav-setting" onclick="showPage('setting')">
+    <span class="nav-icon"><svg style="width:22px;height:22px;stroke:currentColor;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span><span>Setting</span>
+  </div>
+</div>
+
+<!-- FAB BACKDROP -->
+<div class="fab-backdrop" id="fabBackdrop" onclick="closeFabMenu()"></div>
+
+<!-- FAB SUB MENU -->
+<div class="fab-menu" id="fabMenu">
+  <div class="fab-menu-item" onclick="openGajiFromFab()">
+    <div class="fab-menu-icon green"><svg style="width:18px;height:18px;stroke:#fff;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg></div>
+    <div>
+      <div class="fab-menu-label">Pemasukan Gaji</div>
+      <div class="fab-menu-sublabel">Saldo bertambah</div>
+    </div>
+  </div>
+  <div class="fab-menu-item" onclick="openLainnyaFromFab()">
+    <div class="fab-menu-icon" style="background:linear-gradient(135deg,#f59e0b,#b45309);"><svg style="width:18px;height:18px;stroke:#fff;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></div>
+    <div>
+      <div class="fab-menu-label">Pemasukan Lainnya</div>
+      <div class="fab-menu-sublabel">Bonus, freelance, dll</div>
+    </div>
+  </div>
+  <div class="fab-menu-item" onclick="openTabunganFromFab()">
+    <div class="fab-menu-icon purple"><svg style="width:18px;height:18px;stroke:#fff;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2z"/><path d="M2 9v1a2 2 0 0 0 2 2h1"/><path d="M16 11h.01"/></svg></div>
+    <div>
+      <div class="fab-menu-label">Tabungan</div>
+      <div class="fab-menu-sublabel">Saldo berkurang</div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeAllSheets()"></div>
+
+
+<!-- ══ ADD SHEET (hanya Gaji) ══ -->
+<div id="addSheet" class="sheet">
+  <div class="sheet-box">
+    <div class="sheet-bar"></div>
+    <div class="sheet-title"><svg style="width:20px;height:20px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg> Pemasukan Gaji</div>
+    <div class="sheet-sub">Catat penerimaan gaji</div>
+    <div class="field">
+      <label>Nominal Gaji</label>
+      <div class="nominal-wrap">
+        <span class="nominal-prefix">Rp</span>
+        <input type="text" id="nominal" placeholder="0" inputmode="numeric" oninput="fmtNominal(this)">
+      </div>
+    </div>
+    <div class="field">
+      <label>Periode / Bulan</label>
+      <input type="month" id="periodeGaji">
+    </div>
+    <div class="field">
+      <label>Tanggal Terima</label>
+      <input type="date" id="tanggalGaji">
+    </div>
+    <div class="field">
+      <label>Catatan</label>
+      <textarea id="catatan" placeholder="Catatan tambahan (opsional)"></textarea>
+    </div>
+    <button class="btn-primary" onclick="simpanGaji()"><svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg> Simpan Gaji</button>
+  </div>
+</div>
+
+<!-- ══ PEMASUKAN LAINNYA SHEET ══ -->
+<div id="lainnyaSheet" class="sheet">
+  <div class="sheet-box">
+    <div class="sheet-bar"></div>
+    <div class="sheet-title"><svg style="width:20px;height:20px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg> Pemasukan Lainnya</div>
+    <div class="sheet-sub">Bonus, freelance, hadiah, dll</div>
+    <div class="field">
+      <label>Sumber / Keterangan</label>
+      <input type="text" id="kategoriLainnya" placeholder="misal: Bonus, Freelance, Hadiah...">
+    </div>
+    <div class="field">
+      <label>Nominal</label>
+      <div class="nominal-wrap">
+        <span class="nominal-prefix">Rp</span>
+        <input type="text" id="nominalLainnya" placeholder="0" inputmode="numeric" oninput="fmtNominal(this)">
+      </div>
+    </div>
+    <div class="field">
+      <label>Tanggal Terima</label>
+      <input type="date" id="tanggalLainnya">
+    </div>
+    <div class="field">
+      <label>Catatan</label>
+      <textarea id="catatanLainnya" placeholder="Catatan tambahan (opsional)"></textarea>
+    </div>
+    <button class="btn-primary" onclick="simpanLainnya()"><svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg> Simpan Pemasukan</button>
+  </div>
+</div>
+
+<!-- ══ PENGELUARAN SHEET ══ -->
+<div id="pengeluaranSheet" class="sheet">
+  <div class="sheet-box">
+    <div class="sheet-bar"></div>
+    <div class="sheet-title"><svg style="width:20px;height:20px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg> Pengeluaran</div>
+    <div class="sheet-sub">Pilih jenis pengeluaran</div>
+    <div class="pengeluaran-grid">
+      <div class="peng-card" id="pc-belanja" onclick="pilihPengeluaran('belanja')">
+        <div class="peng-icon"><svg style="width:26px;height:26px;stroke:#64748b;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></div><div class="peng-label">Belanja</div>
+      </div>
+      <div class="peng-card" id="pc-makan" onclick="pilihPengeluaran('makan')">
+        <div class="peng-icon"><svg style="width:26px;height:26px;stroke:#64748b;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></div><div class="peng-label">Makan & Minum</div>
+      </div>
+      <div class="peng-card" id="pc-transfer" onclick="pilihPengeluaran('transfer')">
+        <div class="peng-icon"><svg style="width:26px;height:26px;stroke:#64748b;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></div><div class="peng-label">Transfer</div>
+      </div>
+      <div class="peng-card" id="pc-lainnya" onclick="pilihPengeluaran('lainnya')">
+        <div class="peng-icon"><svg style="width:26px;height:26px;stroke:#64748b;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></div><div class="peng-label">Lainnya</div>
+      </div>
+    </div>
+    <div id="formPengeluaran" style="display:none;">
+      <div class="field">
+        <label id="labelKategoriPeng">Kategori</label>
+        <input type="text" id="kategoriPeng" placeholder="Nama kategori">
+      </div>
+      <div class="field" id="fieldTujuanTransfer" style="display:none;">
+        <label>Tujuan Transfer</label>
+        <input type="text" id="tujuanTransfer" placeholder="Nama / rekening tujuan">
+      </div>
+      <div class="field">
+        <label>Nominal</label>
+        <div class="nominal-wrap">
+          <span class="nominal-prefix">Rp</span>
+          <input type="text" id="nominalPeng" placeholder="0" inputmode="numeric" oninput="fmtNominal(this)">
+        </div>
+      </div>
+      <div class="field">
+        <label>Tanggal</label>
+        <input type="date" id="tanggalPeng">
+      </div>
+      <div class="field">
+        <label>Catatan</label>
+        <textarea id="catatanPeng" placeholder="Catatan tambahan (opsional)"></textarea>
+      </div>
+      <button class="btn-primary" onclick="simpanPengeluaran()"><svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg> Simpan Pengeluaran</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TABUNGAN SHEET ══ -->
+<div id="tabunganSheet" class="sheet">
+  <div class="sheet-box">
+    <div class="sheet-bar"></div>
+    <div class="sheet-title"><svg style="width:20px;height:20px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2z"/><path d="M2 9v1a2 2 0 0 0 2 2h1"/><path d="M16 11h.01"/></svg> Tambah Tabungan</div>
+    <div class="sheet-sub">Catat setoran tabungan</div>
+    <div class="field">
+      <label>Nominal</label>
+      <div class="nominal-wrap">
+        <span class="nominal-prefix">Rp</span>
+        <input type="text" id="nominalTab" placeholder="0" inputmode="numeric" oninput="fmtNominal(this)">
+      </div>
+    </div>
+    <div class="field">
+      <label>Tanggal</label>
+      <input type="date" id="tanggalTab">
+    </div>
+    <div class="field">
+      <label>Catatan</label>
+      <textarea id="catatanTab" placeholder="Tujuan tabungan (opsional)"></textarea>
+    </div>
+    <button class="btn-primary" onclick="simpanTabungan()"><svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg> Simpan Tabungan</button>
+  </div>
+</div>
+
+<!-- ══ TRANSFER SHEET ══ -->
+<div id="transferSheet" class="sheet">
+  <div class="sheet-box">
+    <div class="sheet-bar"></div>
+    <div class="sheet-title"><svg style="width:20px;height:20px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg> Transfer</div>
+    <div class="sheet-sub">Dana akan berkurang dari saldo aktif</div>
+    <div class="field">
+      <label>Kategori</label>
+      <input type="text" id="kategoriTransfer" placeholder="misal: Makan, Bensin, Belanja...">
+    </div>
+    <div class="field">
+      <label>Nominal</label>
+      <div class="nominal-wrap">
+        <span class="nominal-prefix">Rp</span>
+        <input type="text" id="nominalTransfer" placeholder="0" inputmode="numeric" oninput="fmtNominal(this)">
+      </div>
+    </div>
+    <div class="field">
+      <label>Tanggal</label>
+      <input type="date" id="tanggalTransfer">
+    </div>
+    <div class="field">
+      <label>Catatan</label>
+      <textarea id="catatanTransfer" placeholder="Catatan tambahan (opsional)"></textarea>
+    </div>
+    <button class="btn-primary" onclick="simpanTransfer()"><svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg> Simpan Transfer</button>
+  </div>
+</div>
+
+<!-- ══ EDIT MODAL ══ -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box">
+    <div class="modal-title"><svg style="width:18px;height:18px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg> Edit Transaksi</div>
+    <input type="hidden" id="editId">
+    <div class="field">
+      <label>Nominal</label>
+      <div class="nominal-wrap">
+        <span class="nominal-prefix">Rp</span>
+        <input type="text" id="editNominal" placeholder="0" inputmode="numeric" oninput="fmtNominal(this)">
+      </div>
+    </div>
+    <div class="field">
+      <label>Kategori</label>
+      <input type="text" id="editKategori" placeholder="Kategori">
+    </div>
+    <div class="field">
+      <label>Tanggal</label>
+      <input type="date" id="editTanggal">
+    </div>
+    <div class="field">
+      <label>Catatan</label>
+      <textarea id="editCatatan" placeholder="Catatan"></textarea>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-btn cancel" onclick="closeEditModal()">Batal</button>
+      <button class="modal-btn save" onclick="simpanEdit()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DELETE CONFIRM MODAL ══ -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal-box">
+    <div class="modal-title"><svg style="width:18px;height:18px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg> Hapus Transaksi</div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:4px;">Yakin ingin menghapus transaksi ini? Tindakan tidak bisa dibatalkan.</p>
+    <input type="hidden" id="deleteId">
+    <div class="modal-btns">
+      <button class="modal-btn cancel" onclick="closeDeleteModal()">Batal</button>
+      <button class="modal-btn danger" onclick="konfirmasiHapusTx()">Hapus</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PENGELUARAN FAB MENU ══ -->
+<div id="pengeluaranMenu" style="position:fixed;bottom:80px;left:0;right:0;padding:0 18px;z-index:997;display:none;">
+  <div style="background:var(--card);border-radius:20px;box-shadow:0 8px 32px var(--shadow);border:1px solid var(--border);overflow:hidden;">
+    <div onclick="openPengeluaranSheet()" style="padding:15px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;cursor:pointer;font-weight:700;font-size:14px;">
+      <svg style="width:20px;height:20px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg> Catat Pengeluaran
+    </div>
+    <div onclick="openTransferSheet()" style="padding:15px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;cursor:pointer;font-weight:700;font-size:14px;">
+      <svg style="width:20px;height:20px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg> Transfer
+    </div>
+    <div onclick="openTabunganSheet()" style="padding:15px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;font-weight:700;font-size:14px;">
+      <svg style="width:20px;height:20px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2z"/><path d="M2 9v1a2 2 0 0 0 2 2h1"/><path d="M16 11h.01"/></svg> Tambah Tabungan
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
+
+<script src="app.js"></script>
+</body>
+</html>

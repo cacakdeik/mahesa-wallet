@@ -1,0 +1,69 @@
+<!-- ══ TABUNGAN ══ -->
+<div id="tabunganPage" class="page">
+  <div class="header">
+    <div class="back-btn" onclick="showPage('home')">← Kembali</div>
+    <div class="greeting"><svg style="width:22px;height:22px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2z"/><path d="M2 9v1a2 2 0 0 0 2 2h1"/><path d="M16 11h.01"/></svg> Tabungan</div>
+    <div class="date-sub">Rekening Tabungan Pribadi</div>
+  </div>
+  <div class="sub-balance-card tabungan-card">
+    <div class="balance-title">Total Tabungan</div>
+    <div class="balance-amount" id="saldoTabunganPage">Rp 0</div>
+  </div>
+  <h3 class="section-title">Riwayat Tabungan</h3>
+  <div class="card">
+    <div id="listTabungan"><div class="empty"><div class="empty-icon"><svg style="width:36px;height:36px;stroke:#64748b;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2z"/><path d="M2 9v1a2 2 0 0 0 2 2h1"/><path d="M16 11h.01"/></svg></div><p>Belum ada tabungan</p></div></div>
+  </div>
+</div>
+
+<!-- ══ BPJS ══ -->
+<div id="bpjsPage" class="page">
+  <div class="header">
+    <div class="back-btn" onclick="showPage('home')">← Kembali</div>
+    <div class="greeting"><svg style="width:22px;height:22px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg> BPJS</div>
+    <div class="date-sub">Saldo BPJS Kesehatan</div>
+  </div>
+  <div class="sub-balance-card bpjs-card">
+    <div class="balance-title">Total Saldo BPJS</div>
+    <div class="balance-amount" id="saldoBpjsPage">Rp 0</div>
+    <div class="auto-badge"><svg style="width:12px;height:12px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg> Auto +Rp 285.000 setiap tgl 15</div>
+  </div>
+  <h3 class="section-title">Riwayat BPJS</h3>
+  <div class="card">
+    <div id="listBpjs"><div class="empty"><div class="empty-icon"><svg style="width:36px;height:36px;stroke:#64748b;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg></div><p>Belum ada riwayat BPJS</p></div></div>
+  </div>
+</div>
+
+<!-- ══ MAYBANK ══ -->
+<div id="maybankPage" class="page">
+  <div class="header">
+    <div class="back-btn" onclick="showPage('home')">← Kembali</div>
+    <div class="greeting"><svg style="width:22px;height:22px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg> Maybank</div>
+    <div class="date-sub">Rekening Maybank</div>
+  </div>
+  <div class="sub-balance-card maybank-card">
+    <div class="balance-title">Total Saldo Maybank</div>
+    <div class="balance-amount" id="saldoMaybankPage">Rp 0</div>
+    <div class="auto-badge"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg> Auto +Rp 200.000 setiap tgl 27</div>
+  </div>
+  <h3 class="section-title">Riwayat Maybank</h3>
+  <div class="card">
+    <div id="listMaybank"><div class="empty"><div class="empty-icon"><svg style="width:36px;height:36px;stroke:#64748b;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg></div><p>Belum ada riwayat Maybank</p></div></div>
+  </div>
+</div>
+
+<!-- ══ RIWAYAT GAJI ══ -->
+<div id="gajiPage" class="page">
+  <div class="header">
+    <div class="back-btn" onclick="showPage('setting')"><svg style="width:15px;height:15px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg> Kembali</div>
+    <div class="greeting"><svg style="width:22px;height:22px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg> Histori Gaji</div>
+    <div class="date-sub">Riwayat Pemasukan Gaji</div>
+  </div>
+  <div class="sub-balance-card gaji-card">
+    <div class="balance-title">Total Gaji Diterima</div>
+    <div class="balance-amount" id="totalGajiPage">Rp 0</div>
+  </div>
+  <h3 class="section-title">Riwayat Gaji</h3>
+  <div class="card" id="gajiList">
+    <div class="empty"><div class="empty-icon"><svg style="width:36px;height:36px;stroke:#64748b;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg></div><p>Belum ada riwayat gaji</p></div>
+  </div>
+</div>
