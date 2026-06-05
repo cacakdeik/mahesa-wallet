@@ -1,0 +1,16 @@
+<!-- ══ RIWAYAT ══ -->
+<div id="riwayat" class="page">
+  <div class="header">
+    <div class="greeting"><svg style="width:22px;height:22px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg> Riwayat</div>
+    <div class="date-sub">Semua Transaksi</div>
+  </div>
+  <div class="tab-row">
+    <div class="tab-pill active" id="tab-semua" onclick="filterRiwayat('semua')">Semua</div>
+    <div class="tab-pill" id="tab-masuk" onclick="filterRiwayat('masuk')">Gaji</div>
+    <div class="tab-pill" id="tab-keluar" onclick="filterRiwayat('keluar')">Pengeluaran</div>
+    <div class="tab-pill" id="tab-tabungan" onclick="filterRiwayat('tabungan')">Tabungan</div>
+  </div>
+  <div class="card">
+    <div id="riwayatList"><div class="empty"><div class="empty-icon"><svg style="width:36px;height:36px;stroke:#64748b;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg></div><p>Riwayat kosong</p></div></div>
+  </div>
+</div>

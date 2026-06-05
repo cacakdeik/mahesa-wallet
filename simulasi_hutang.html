@@ -1,0 +1,123 @@
+<!-- ══ SIMULASI HUTANG ══ -->
+<div id="simulasiHutangPage" class="page">
+  <div class="header">
+    <div class="back-btn" onclick="showPage('home')"><svg style="width:15px;height:15px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg> Kembali</div>
+    <div class="greeting"><svg style="width:22px;height:22px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="m12 12 4 10 1.7-4.3L22 16Z"/></svg> Simulasi Hutang</div>
+    <div class="date-sub">Hitung sisa gaji setelah cicilan</div>
+  </div>
+
+  <!-- HERO: Sisa Gaji -->
+  <div class="hutang-hero">
+    <div class="hutang-hero-label">💸 Sisa Setelah Hutang</div>
+    <div class="hutang-sisa-amount" id="hutangSisaGaji">Rp 0</div>
+    <div class="hutang-hero-sub" id="hutangSisaSub">Masukkan gaji dan daftar hutang untuk simulasi</div>
+    <div class="hutang-badge" id="hutangBadge">⏳ Belum dihitung</div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="hutang-status-bar aman" id="hutangStatusBar">
+    <div class="hutang-status-dot"></div>
+    <div>
+      <div class="hutang-status-text" id="hutangStatusText">🟢 Aman</div>
+      <div class="hutang-status-sub" id="hutangStatusSub">Masukkan data untuk melihat status keuangan.</div>
+    </div>
+  </div>
+
+  <!-- INPUT GAJI -->
+  <div class="card" style="margin-bottom:14px;">
+    <div class="section-title" style="margin:0 0 12px;font-size:14px;"><svg style="width:16px;height:16px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/></svg> Gaji Bulanan</div>
+    <div class="field" style="margin-top:0;">
+      <label>Nominal Gaji</label>
+      <div class="nominal-wrap">
+        <span class="nominal-prefix">Rp</span>
+        <input type="text" id="simGaji" placeholder="0" inputmode="numeric" oninput="fmtNominal(this);hitungSimulasi()">
+      </div>
+    </div>
+  </div>
+
+  <!-- KARTU RINGKASAN -->
+  <div class="hutang-grid">
+    <div class="hutang-card">
+      <div class="hutang-card-label">Total Gaji</div>
+      <div class="hutang-card-val normal" id="hutangTotalGaji">Rp 0</div>
+    </div>
+    <div class="hutang-card">
+      <div class="hutang-card-label">Total Hutang/bln</div>
+      <div class="hutang-card-val bahaya" id="hutangTotalCicilan">Rp 0</div>
+    </div>
+    <div class="hutang-card">
+      <div class="hutang-card-label">Rasio Hutang</div>
+      <div class="hutang-card-val" id="hutangRasio" style="color:var(--text2)">0%</div>
+    </div>
+    <div class="hutang-card">
+      <div class="hutang-card-label">Sisa Bersih</div>
+      <div class="hutang-card-val aman" id="hutangSisaBersih">Rp 0</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS BEBAN HUTANG -->
+  <div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div style="font-size:13px;font-weight:800;">Beban Hutang</div>
+      <div style="font-size:12px;font-weight:700;color:var(--text2);" id="hutangProgressLabel">0% dari gaji</div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill aman" id="hutangProgressBar" style="width:0%"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:var(--text2);font-weight:600;">
+      <span>0%</span>
+      <span style="color:#d97706;">Ideal: maks 30%</span>
+      <span>100%</span>
+    </div>
+  </div>
+
+  <!-- DAFTAR HUTANG -->
+  <h3 class="section-title"><svg style="width:17px;height:17px;stroke:#dc2626;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="m12 12 4 10 1.7-4.3L22 16Z"/></svg> Daftar Hutang</h3>
+  <div class="card" style="margin-bottom:14px;">
+    <div id="hutangList"><div class="empty"><div class="empty-icon"><svg style="width:36px;height:36px;stroke:#64748b;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="m12 12 4 10 1.7-4.3L22 16Z"/></svg></div><p>Belum ada hutang tercatat</p></div></div>
+    <button class="btn-primary" style="margin-top:14px;" onclick="openHutangSheet()"><svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg> Tambah Hutang</button>
+  </div>
+
+  <!-- AKUMULASI 1 BULAN -->
+  <h3 class="section-title"><svg style="width:17px;height:17px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg> Akumulasi 1 Bulan</h3>
+  <div class="card" style="margin-bottom:14px;">
+    <div id="hutangAkumulasi">
+      <div class="empty"><p style="font-size:12px;">Masukkan gaji dan hutang untuk melihat akumulasi.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SHEET TAMBAH HUTANG ══ -->
+<div id="hutangSheet" class="sheet">
+  <div class="sheet-box">
+    <div class="sheet-bar"></div>
+    <div class="sheet-title"><svg style="width:20px;height:20px;stroke:currentColor;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="m12 12 4 10 1.7-4.3L22 16Z"/></svg> Tambah Hutang</div>
+    <div class="sheet-sub">Catat cicilan / tagihan bulanan</div>
+    <div class="field">
+      <label>Nama Hutang / Kreditur</label>
+      <input type="text" id="hutangNama" placeholder="misal: KPR, Kartu Kredit, Pinjol...">
+    </div>
+    <div class="field">
+      <label>Cicilan per Bulan</label>
+      <div class="nominal-wrap">
+        <span class="nominal-prefix">Rp</span>
+        <input type="text" id="hutangCicilan" placeholder="0" inputmode="numeric" oninput="fmtNominal(this)">
+      </div>
+    </div>
+    <div class="field">
+      <label>Total Hutang (opsional)</label>
+      <div class="nominal-wrap">
+        <span class="nominal-prefix">Rp</span>
+        <input type="text" id="hutangTotal" placeholder="0" inputmode="numeric" oninput="fmtNominal(this)">
+      </div>
+    </div>
+    <div class="field">
+      <label>Catatan</label>
+      <textarea id="hutangCatatan" placeholder="Catatan tambahan (opsional)"></textarea>
+    </div>
+    <div class="btn-row">
+      <button class="btn-sec" onclick="closeHutangSheet()">Batal</button>
+      <button class="btn-primary" style="margin-top:0;" onclick="simpanHutang()"><svg style="width:16px;height:16px;stroke:#fff;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></svg> Simpan</button>
+    </div>
+  </div>
+</div>
